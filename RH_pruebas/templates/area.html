@@ -1,5 +1,4 @@
 {% extends "layout.html" %}
-
 {% block content %}
     <table width="100%" border="1" cellpadding="0" bordercolor="#000000">
     <tbody>
@@ -19,9 +18,8 @@
     {% for i in comentarios %}
         <tr>
         <td width="80%">
-           {{i.1}}
+            {{i.1}}
         </td>
-
         <td bgcolor="#2B2D83" width="8%">
         <center><a href="/area_editar/{{i.0}}" style="...">Editar</a></center>
         </td>
