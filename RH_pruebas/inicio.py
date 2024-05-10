@@ -351,7 +351,8 @@ def idioma_fagrega():
         conn.commit()
     return redirect(url_for('idioma'))
 
-#contratación
+#TODO:contratación
+#!puesto
 @app.route('/puesto')
 def puesto():
     conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
@@ -489,7 +490,6 @@ def puesto_fagrega():
         resp = request.form['responsabilidades']
         conT = request.form['condicionesTrabajo']
 
-
     conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
     cursor = conn.cursor()
     cursor.execute(
@@ -528,7 +528,6 @@ def puesto_fagrega():
             conn.commit()
 
     return redirect(url_for('puesto'))
-
 
 
 @app.route('/puesto_editar/<string:idP>')
@@ -584,7 +583,6 @@ def puesto_editar(idP):
     cursor.execute('select a.idPuesto, b.idHabilidad, b.descripcion from puesto a, habilidad b, puesto_has_habilidad c '
                    'where a.idPuesto = c.idPuesto and b.idHabilidad = c.idHabilidad and a.idPuesto = %s', (idP))
     datos17 = cursor.fetchall()
-
 
     return render_template("puesto_edi.html", dat=dato[0], catArea=datos1, catEdoCivil=datos2, catEscolaridad=datos3,
                            catGradoAvance=datos4, catCarrera=datos5, catIdioma=datos6, catHabilidad=datos7,
@@ -658,6 +656,15 @@ def puesto_fedita(idP):
     return redirect(url_for('puesto'))
 
 
+
+#!Requisición
+@app.route('/requisicion')
+def area():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    cursor = conn.cursor()
+    cursor.execute('select idRequisicion, descripcion from requisicion order by idRequisicion')
+    datos = cursor.fetchall()
+    return render_template("area.html", comentarios = datos)
 
 
 if __name__ == "__main__":
