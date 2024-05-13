@@ -509,3 +509,106 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+--TODO:Moss
+--
+-- Estructura de tabla para la tabla `preguntas`
+--
+
+CREATE TABLE IF NOT EXISTS 'preguntas_moss'  (
+  'idPregunta' int(11) NOT NULL AUTO_INCREMENT,
+  'pregunta' varchar(120) NOT NULL,
+  PRIMARY KEY ('idPregunta')
+)
+
+--
+-- Estructura de tabla para la tabla `opciones`
+--
+
+CREATE TABLE IF NOT EXISTS 'opciones_moss'  (
+  'idOpciones' int(11) NOT NULL AUTO_INCREMENT,
+  'respuesta1' varchar(250) NOT NULL,
+  'respuesta2' varchar(250) NOT NULL,
+  'respuesta3' varchar(250),
+  'idPregunta' int(11) NOT NULL AUTO_INCREMENT,
+  KEY 'idPregunta' ('idPregunta'),
+  PRIMARY KEY ('idOpciones')
+)
+
+--
+-- Estructura de tabla para la tabla `respuestas`
+--
+CREATE TABLE IF NOT EXISTS 'respuestas_moss'  (
+  'idRespuesta' int(11) NOT NULL AUTO_INCREMENT,
+  'idPregunta' int(11) NOT NULL AUTO_INCREMENT,
+  'idOpciones' int(11) NOT NULL AUTO_INCREMENT,
+  KEY 'idPregunta' ('idPregunta'),
+  KEY 'idOpciones' ('idOpciones'),
+  PRIMARY KEY('idRespuesta')
+)
+
+--TODO:Cleaver
+--
+-- Estructura de tabla para la tabla `preguntas`
+--
+
+CREATE TABLE IF NOT EXISTS 'preguntas_clea'  (
+  'idPregunta' int(11) NOT NULL AUTO_INCREMENT,
+  'pregunta' varchar(120) NOT NULL,
+  PRIMARY KEY ('idPregunta')
+)
+
+--
+-- Estructura de tabla para la tabla `opciones`
+--
+
+CREATE TABLE IF NOT EXISTS 'opciones_clea'  (
+  'idOpcion' int(11) NOT NULL AUTO_INCREMENT,
+  'respuesta1' varchar(250) NOT NULL,
+  'respuesta2' varchar(250) NOT NULL,
+  'respuesta3' varchar(250),
+  'idPregunta' int(11) NOT NULL AUTO_INCREMENT,
+  KEY 'idPregunta' ('idPregunta'),
+  PRIMARY KEY ('idOpcion')
+)
+
+--
+-- Estructura de tabla para la tabla `respuestas`
+--
+CREATE TABLE IF NOT EXISTS 'respuestas_clea'  (
+  'idRespuesta' int(11) NOT NULL AUTO_INCREMENT,
+  'idPregunta' int(11) NOT NULL AUTO_INCREMENT,
+  'idOpciones' int(11) NOT NULL AUTO_INCREMENT,
+  KEY 'idPregunta' ('idPregunta'),
+  KEY 'idOpciones' ('idOpciones'),
+  PRIMARY KEY('idRespuesta')
+)
+
+--
+-- Estructura de tabla para la tabla `Pendiantes`
+--
+
+CREATE TABLE IF NOT EXISTS 'pendientes' (
+  'idExamen' int(220) NOT NULL AUTO_INCREMENT,
+  'calificacion_moss' int(100) NOT NULL,
+  'calificacion_clea' int(100) NOT NULL,
+  'idCandidato' int(100) NOT NULL AUTO_INCREMENT,
+  KEY 'idCandidato' ('idCandidato'),
+  PRIMARY KEY ('idExamen')
+)
+
+--
+-- Estructura de tabla para la tabla `realizados`
+--
+
+CREATE TABLE IF NOT EXISTS 'realizados' (
+  'idExamenR' int(11) NOT NULL AUTO_INCREMENT,
+  'resultado_moss' int(11) not null,
+  'resultado_clea' int(11) not null,
+  'fecha' date NOT NULL,
+  `idCandidato` int(11) NOT NULL AUTO_INCREMENT,
+  'idExamen' int(220) NOT NULL AUTO_INCREMENT,
+  KEY 'idCandidato' ('idCandidato'),
+  KEY 'idExamen' ('idExamen'),
+  PRIMARY KEY ('idExamenR')
+)
