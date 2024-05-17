@@ -661,8 +661,8 @@ def puesto_fedita(idP):
 #TODO: Examenes psicometricos
 
 @app.route('/examen')
-def preguntas():
-    pregunta1, p1_resp1, p1_resp2, p1_resp3,pregunta2, p2_resp1, p2_resp2, p2_resp3,pregunta3, p3_resp1, p3_resp2, p3_resp3,pregunta4, p4_resp1, p4_resp2, p4_resp3,pregunta5, p5_resp1, p5_resp2, p5_resp3,pregunta6, p6_resp1, p6_resp2, p6_resp3,pregunta7, p7_resp1, p7_resp2, p7_resp3,pregunta8, p8_resp1, p8_resp2, p8_resp3,pregunta9, p9_resp1, p9_resp2, p9_resp3,pregunta10, p10_resp1, p10_resp2, p10_resp3 = preguntas.pregun()
+def preguntass():
+    pregunta1, p1_resp1, p1_resp2, p1_resp3,pregunta2, p2_resp1, p2_resp2, p2_resp3,pregunta3, p3_resp1, p3_resp2, p3_resp3,pregunta4, p4_resp1, p4_resp2, p4_resp3,pregunta5, p5_resp1, p5_resp2, p5_resp3,pregunta6, p6_resp1, p6_resp2, p6_resp3,pregunta7, p7_resp1, p7_resp2, p7_resp3,pregunta8, p8_resp1, p8_resp2, p8_resp3,pregunta9, p9_resp1, p9_resp2, p9_resp3,pregunta10, p10_resp1, p10_resp2, p10_resp3 = preguntas.test()
     return render_template("exam.html", pregunta1=pregunta1, p1_resp1=p1_resp1, p1_resp2=p1_resp2, p1_resp3=p1_resp3, pregunta2=pregunta2, p2_resp1=p2_resp1, p2_resp2=p2_resp2, p2_resp3=p2_resp3, pregunta3=pregunta3, p3_resp1=p3_resp1, p3_resp2=p3_resp2, p3_resp3=p3_resp3, pregunta4=pregunta4, p4_resp1=p4_resp1, p4_resp2=p4_resp2, p4_resp3=p4_resp3, pregunta5=pregunta5, p5_resp1=p5_resp1, p5_resp2=p5_resp2, p5_resp3=p5_resp3, pregunta6=pregunta6, p6_resp1=p6_resp1, p6_resp2=p6_resp2, p6_resp3=p6_resp3, pregunta7=pregunta7, p7_resp1=p7_resp1, p7_resp2=p7_resp2, p7_resp3=p7_resp3, pregunta8=pregunta8, p8_resp1=p8_resp1, p8_resp2=p8_resp2, p8_resp3=p8_resp3, pregunta9=pregunta9, p9_resp1=p9_resp1, p9_resp2=p9_resp2, p9_resp3=p9_resp3, pregunta10=pregunta10, p10_resp1=p10_resp1, p10_resp2=p10_resp2, p10_resp3=p10_resp3)
 
 

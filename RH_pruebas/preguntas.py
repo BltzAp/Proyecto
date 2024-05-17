@@ -1,4 +1,4 @@
-def pregun():
+def test():
 
     pregunta1="¿Prefieres trabajar solo o en equipo?"
     p1_resp1="a) Solo"
