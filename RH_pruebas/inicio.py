@@ -658,16 +658,6 @@ def puesto_fedita(idP):
 
 
 
-#!Requisición
-@app.route('/requisicion')
-def area():
-    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
-    cursor = conn.cursor()
-    cursor.execute('select idRequisicion, descripcion from requisicion order by idRequisicion')
-    datos = cursor.fetchall()
-    return render_template("area.html", comentarios = datos)
-
-
 #TODO: Examenes psicometricos
 
 @app.route('/examen')
