@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import pymysql
+import preguntas
 
 app = Flask(__name__)
 
@@ -666,6 +667,22 @@ def area():
     datos = cursor.fetchall()
     return render_template("area.html", comentarios = datos)
 
+
+#TODO: Examenes psicometricos
+
+@app.route('/examen')
+def preguntas():
+    pregunta1, p1_resp1, p1_resp2, p1_resp3,pregunta2, p2_resp1, p2_resp2, p2_resp3,pregunta3, p3_resp1, p3_resp2, p3_resp3,pregunta4, p4_resp1, p4_resp2, p4_resp3,pregunta5, p5_resp1, p5_resp2, p5_resp3,pregunta6, p6_resp1, p6_resp2, p6_resp3,pregunta7, p7_resp1, p7_resp2, p7_resp3,pregunta8, p8_resp1, p8_resp2, p8_resp3,pregunta9, p9_resp1, p9_resp2, p9_resp3,pregunta10, p10_resp1, p10_resp2, p10_resp3 = preguntas.pregun()
+    return render_template("exam.html", pregunta1=pregunta1, p1_resp1=p1_resp1, p1_resp2=p1_resp2, p1_resp3=p1_resp3, pregunta2=pregunta2, p2_resp1=p2_resp1, p2_resp2=p2_resp2, p2_resp3=p2_resp3, pregunta3=pregunta3, p3_resp1=p3_resp1, p3_resp2=p3_resp2, p3_resp3=p3_resp3, pregunta4=pregunta4, p4_resp1=p4_resp1, p4_resp2=p4_resp2, p4_resp3=p4_resp3, pregunta5=pregunta5, p5_resp1=p5_resp1, p5_resp2=p5_resp2, p5_resp3=p5_resp3, pregunta6=pregunta6, p6_resp1=p6_resp1, p6_resp2=p6_resp2, p6_resp3=p6_resp3, pregunta7=pregunta7, p7_resp1=p7_resp1, p7_resp2=p7_resp2, p7_resp3=p7_resp3, pregunta8=pregunta8, p8_resp1=p8_resp1, p8_resp2=p8_resp2, p8_resp3=p8_resp3, pregunta9=pregunta9, p9_resp1=p9_resp1, p9_resp2=p9_resp2, p9_resp3=p9_resp3, pregunta10=pregunta10, p10_resp1=p10_resp1, p10_resp2=p10_resp2, p10_resp3=p10_resp3)
+
+
+@app.route('/requisicion')
+def preguntas():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3' )
+    cursor = conn.cursor()
+    cursor.execute('select idRequisicion, descripcion from requisicion order by idRequisicion')
+    datos = cursor.fetchall()
+    return render_template("area.html", comentarios = datos)
 
 if __name__ == "__main__":
     app.run(debug=True)
