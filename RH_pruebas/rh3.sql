@@ -511,15 +511,23 @@ COMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 CREATE TABLE if not EXISTS 'examenes' (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(255) NOT NULL
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(255) NOT NULL
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 CREATE TABLE if not EXISTS 'respuestas' (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    examen_id INT,
-    pregunta_id INT,
-    respuesta_seleccionada VARCHAR(255),
-    FOREIGN KEY (examen_id) REFERENCES examenes(id)
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  examen_id INT,
+  pregunta_id INT,
+  respuesta_seleccionada VARCHAR(255),
+  FOREIGN KEY (examen_id) REFERENCES examenes(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+CREATE TABLE if NOT EXISTS 'calificaciones' (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  examen_id INT,
+  pregunta_id INT,
+  calificacion INT,
+  FOREIGN KEY (examen_id) REFERENCES examenes(id),
+  FOREIGN KEY (pregunta_id) REFERENCES respuestas(id)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
