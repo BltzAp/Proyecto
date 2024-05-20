@@ -33,6 +33,8 @@ body{
     background-size: cover;
     background-attachment: fixed;
     
-
 }
 
+.test{
+    margin: 2%;
+}
