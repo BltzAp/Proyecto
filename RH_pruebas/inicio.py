@@ -732,18 +732,47 @@ def calificar():
     conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
     try:
         with conn.cursor() as cursor:
-            sql = """
-            INSERT INTO calificaciones (examen_id, pregunta_id, calificacion)
-            VALUES (%s, %s, %s)
-            ON DUPLICATE KEY UPDATE calificacion = %s
-            """
-            cursor.execute(sql, (examen_id, pregunta_id, calificacion, calificacion))
+            # Guardar la calificación en la base de datos
+            sql = "UPDATE respuestas SET calificacion = %s WHERE examen_id = %s AND pregunta_id = %s"
+            cursor.execute(sql, (calificacion, examen_id, pregunta_id))
         conn.commit()
     finally:
         conn.close()
 
     return redirect('/revisar')
 
+@app.route('/calificados')
+def examenes_revisados():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    try:
+        with conn.cursor() as cursor:
+            # Obtener los exámenes calificados y sus respuestas
+            sql = "SELECT e.id, e.nombre, r.pregunta_id, r.respuesta_seleccionada, r.calificacion \
+                   FROM examenes e \
+                   INNER JOIN respuestas r ON e.id = r.examen_id \
+                   WHERE r.calificacion IS NOT NULL \
+                   ORDER BY e.id, r.pregunta_id"
+            cursor.execute(sql)
+            resultados = cursor.fetchall()
+
+    finally:
+        conn.close()
+
+    # Procesar los resultados para agrupar las respuestas por examen
+    examenes = {}
+    for fila in resultados:
+        examen_id, nombre_examen, pregunta_id, respuesta, calificacion = fila
+        if examen_id not in examenes:
+            examenes[examen_id] = {'nombre': nombre_examen, 'respuestas': []}
+        examenes[examen_id]['respuestas'].append({'pregunta_id': pregunta_id, 'respuesta': respuesta, 'calificacion': calificacion})
+
+    # Calcular el promedio de calificaciones para cada examen
+    for examen_id, datos_examen in examenes.items():
+        calificaciones = [respuesta['calificacion'] for respuesta in datos_examen['respuestas']]
+        promedio_calificaciones = sum(calificaciones) / len(calificaciones)
+        examenes[examen_id]['promedio_calificaciones'] = round(promedio_calificaciones, 2)
+
+    return render_template("califica.html", examenes=examenes)
 
 
 if __name__ == "__main__":

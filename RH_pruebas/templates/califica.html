@@ -1,4 +1,32 @@
 {% extends "layout.html" %}
-{% block content %}
 
+{% block content %}
+<h2>Exámenes Revisados</h2>
+{% for examen_id, datos_examen in examenes.items() %}
+    <div class="examen">
+        <h3>Examen ID: {{ examen_id }} - {{ datos_examen.nombre }}</h3>
+        <table class="table table-bordered" style="width: 60%; font-size: 0.9em; margin: 10px auto;">
+            <thead>
+                <tr>
+                    <th style="padding: 5px;">Pregunta ID</th>
+                    <th style="padding: 5px;">Respuesta Seleccionada</th>
+                    <th style="padding: 5px;">Calificación</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for respuesta in datos_examen.respuestas %}
+                <tr>
+                    <td style="padding: 5px;">{{ respuesta.pregunta_id }}</td>
+                    <td style="padding: 5px;">{{ respuesta.respuesta }}</td>
+                    <td style="padding: 5px;">{{ respuesta.calificacion }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="2" style="text-align: right; padding: 5px;"><strong>Promedio:</strong></td>
+                    <td style="padding: 5px;"><strong>{{ datos_examen.promedio_calificaciones }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+{% endfor %}
 {% endblock %}
