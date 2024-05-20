@@ -679,8 +679,8 @@ def preguntass():
     return render_template("exam.html", examen_id=examen_id, pregunta1=pregunta1, p1_resp1=p1_resp1, p1_resp2=p1_resp2, p1_resp3=p1_resp3, pregunta2=pregunta2, p2_resp1=p2_resp1, p2_resp2=p2_resp2, p2_resp3=p2_resp3, pregunta3=pregunta3, p3_resp1=p3_resp1, p3_resp2=p3_resp2, p3_resp3=p3_resp3, pregunta4=pregunta4, p4_resp1=p4_resp1, p4_resp2=p4_resp2, p4_resp3=p4_resp3, pregunta5=pregunta5, p5_resp1=p5_resp1, p5_resp2=p5_resp2, p5_resp3=p5_resp3, pregunta6=pregunta6, p6_resp1=p6_resp1, p6_resp2=p6_resp2, p6_resp3=p6_resp3, pregunta7=pregunta7, p7_resp1=p7_resp1, p7_resp2=p7_resp2, p7_resp3=p7_resp3, pregunta8=pregunta8, p8_resp1=p8_resp1, p8_resp2=p8_resp2, p8_resp3=p8_resp3, pregunta9=pregunta9, p9_resp1=p9_resp1, p9_resp2=p9_resp2, p9_resp3=p9_resp3, pregunta10=pregunta10, p10_resp1=p10_resp1, p10_resp2=p10_resp2, p10_resp3=p10_resp3)
 
 
-@app.route('/revisar', methods=['POST'])
-def revisar():
+@app.route('/guardar', methods=['POST'])
+def guardar():
     examen_id = request.form['examen_id']
     respuestas = []
     for i in range(1, 11):
@@ -697,8 +697,54 @@ def revisar():
     finally:
         conn.close()
 
+    return render_template("home.html")
 
-    return render_template("revisa.html")
+@app.route('/revisar')
+def revisar():
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    examenes = []
+    try: 
+        with conn.cursor() as cursor:
+            # Obtener todos los exámenes
+            cursor.execute("SELECT * FROM examenes ORDER BY id")
+            examenes_db = cursor.fetchall()
+
+            # Convertir las tuplas a listas y agregar un campo vacío para las respuestas
+            for examen in examenes_db:
+                examenes.append(list(examen) + [[]])
+
+            # Obtener las respuestas para cada examen
+            for examen in examenes:
+                cursor.execute("SELECT * FROM respuestas WHERE examen_id = %s ORDER BY pregunta_id", (examen[0],))
+                examen_respuestas = cursor.fetchall()
+                examen[2].extend(examen_respuestas)
+    finally:
+        conn.close()
+
+    return render_template("revisa.html", examenes=examenes)
+
+@app.route('/calificar', methods=['POST'])
+def calificar():
+    examen_id = request.form['examen_id']
+    pregunta_id = request.form['pregunta_id']
+    calificacion = request.form['calificacion']
+
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='rh3')
+    try:
+        with conn.cursor() as cursor:
+            sql = """
+            INSERT INTO calificaciones (examen_id, pregunta_id, calificacion)
+            VALUES (%s, %s, %s)
+            ON DUPLICATE KEY UPDATE calificacion = %s
+            """
+            cursor.execute(sql, (examen_id, pregunta_id, calificacion, calificacion))
+        conn.commit()
+    finally:
+        conn.close()
+
+    return redirect('/revisar')
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

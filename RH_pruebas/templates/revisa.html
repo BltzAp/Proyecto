@@ -1,4 +1,35 @@
 {% extends "layout.html" %}
-{% block content %}
 
+{% block content %}
+<h2>Exámenes Realizados</h2>
+{% for examen in examenes %}
+    <div class="examen">
+        <h3>Examen ID: {{ examen[0] }} - {{ examen[1] }}</h3>
+        <table class="table table-bordered" style="width: 60%; font-size: 0.9em; margin: 10px auto;">
+            <thead>
+                <tr>
+                    <th style="padding: 5px;">Pregunta ID</th>
+                    <th style="padding: 5px;">Respuesta Seleccionada</th>
+                    <th style="padding: 5px;">Calificación</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for respuesta in examen[2] %}
+                <tr>
+                    <td style="padding: 5px;">{{ respuesta[1] }}</td>
+                    <td style="padding: 5px;">{{ respuesta[2] }}</td>
+                    <td style="padding: 5px;">
+                        <form action="/calificar" method="POST" class="form-inline" style="display: inline-flex;">
+                            <input type="hidden" name="examen_id" value="{{ examen[0] }}">
+                            <input type="hidden" name="pregunta_id" value="{{ respuesta[1] }}">
+                            <input type="number" name="calificacion" min="0" max="10" class="form-control" required style="width: 60px; margin-right: 5px;">
+                            <button type="submit" class="btn btn-primary btn-sm">Calificar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endfor %}
 {% endblock %}
